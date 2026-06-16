@@ -228,29 +228,47 @@ def main(page: ft.Page):
 
         def animate_in():
             time.sleep(0.3)
-            ring.opacity = 1.0;  ring.update()
-            ring2.opacity = 1.0; ring2.update()
+            ring.opacity = 1.0
+            ring2.opacity = 1.0
+            page.update()  # Safely update the page container instead of individual widgets
+            
             time.sleep(0.3)
-            photo.opacity = 1.0; photo.update()
+            photo.opacity = 1.0
+            page.update()
+            
             time.sleep(0.4)
-            name_text.opacity = 1.0; name_text.update()
+            name_text.opacity = 1.0
+            page.update()
+            
             time.sleep(0.2)
-            role_text.opacity = 1.0; role_text.update()
+            role_text.opacity = 1.0
+            page.update()
+            
             time.sleep(0.15)
-            unam_text.opacity = 1.0; unam_text.update()
+            unam_text.opacity = 1.0
+            page.update()
+            
             time.sleep(0.2)
-            tagline.opacity = 1.0; tagline.update()
+            tagline.opacity = 1.0
+            page.update()
+            
             time.sleep(0.3)
-            progress.opacity = 1.0; loading_txt.opacity = 1.0
-            progress.update(); loading_txt.update()
+            progress.opacity = 1.0
+            loading_txt.opacity = 1.0
+            page.update()
+            
             for v in [0.2, 0.4, 0.6, 0.8, 1.0]:
                 progress.value = v
-                progress.update()
+                page.update()
                 time.sleep(0.3)
-            loading_txt.value = "Ready!"; loading_txt.color = "#3fb950"
-            loading_txt.update()
+                
+            loading_txt.value = "Ready!"
+            loading_txt.color = "#3fb950"
+            page.update()
+            
             time.sleep(0.4)
-            enter_btn.opacity = 1.0; enter_btn.update()
+            enter_btn.opacity = 1.0
+            page.update()
 
         threading.Thread(target=animate_in, daemon=True).start()
 
