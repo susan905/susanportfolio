@@ -11,7 +11,7 @@ def main(page: ft.Page):
     page.title = "Juuso Susan Portfolio 2026"
     page.bgcolor = "#0d1117"
     page.padding = 0
-    page.scroll = "auto"
+    page.scroll = ft.ScrollMode.AUTO  # Fixed: Standardized to explicit ScrollMode enum
 
     NAV_ITEMS = [
         {"label": "Timeline", "icon": "🗓", "color": "#8b949e"},
@@ -32,10 +32,10 @@ def main(page: ft.Page):
 
         btn_refs = []
 
-        # content_area declared first so switch_page can reference it
+        # Content area
         content_area = ft.Column(
             controls=[get_page(0)],
-            scroll="auto",
+            scroll=ft.ScrollMode.AUTO,  # Fixed: Standardized layout string references
             expand=True,
         )
 
@@ -43,7 +43,7 @@ def main(page: ft.Page):
             for i, b in enumerate(btn_refs):
                 is_now = i == index
                 b.data["label"].color = b.data["color"] if is_now else "#8b949e"
-                b.data["label"].weight = "bold" if is_now else "normal"
+                b.data["label"].weight = ft.FontWeight.BOLD if is_now else ft.FontWeight.NORMAL
                 b.data["glow"].opacity = 1.0 if is_now else 0.0
                 b.update()
             content_area.controls.clear()
@@ -56,21 +56,21 @@ def main(page: ft.Page):
             label = ft.Text(
                 item["label"], size=13,
                 color=item["color"] if is_active else "#8b949e",
-                weight="bold" if is_active else "normal",
+                weight=ft.FontWeight.BOLD if is_active else ft.FontWeight.NORMAL,
             )
             glow_dot = ft.Container(
                 width=5, height=5,
                 bgcolor=item["color"],
                 border_radius=3,
                 opacity=1.0 if is_active else 0.0,
-                animate_opacity=ft.animation.Animation(300, "easeOut"),
+                animate_opacity=ft.Animation(300, ft.AnimationCurve.EASE_OUT),  # FIXED: ft.animation.Animation to ft.Animation
                 shadow=ft.BoxShadow(blur_radius=6, color=item["color"], spread_radius=1),
             )
             btn = ft.Container(
                 content=ft.Row(
                     controls=[icon_widget, label, glow_dot],
                     spacing=6,
-                    vertical_alignment="center",
+                    vertical_alignment=ft.CrossAxisAlignment.CENTER,
                 ),
                 padding=ft.padding.symmetric(horizontal=20, vertical=12),
                 border_radius=8,
@@ -89,24 +89,24 @@ def main(page: ft.Page):
                     ft.Row(
                         controls=[
                             ft.Container(
-                                content=ft.Text("JS", size=14, color="#ffffff", weight="bold"),
+                                content=ft.Text("JS", size=14, color="#ffffff", weight=ft.FontWeight.BOLD),
                                 width=36, height=36,
                                 bgcolor="#0d1117",
-                                border=ft.border.all(1, "#8b949e"),
+                                border=ft.Border.all(1, "#8b949e"),  # FIXED: ft.border.all to ft.Border.all
                                 border_radius=18,
                                 alignment=ft.alignment.center,
                                 shadow=ft.BoxShadow(blur_radius=12, color="#8b949e44", spread_radius=1),
                             ),
                             ft.Column(
                                 controls=[
-                                    ft.Text("Juuso Susan", size=13, color="#e6edf3", weight="bold"),
+                                    ft.Text("Juuso Susan", size=13, color="#e6edf3", weight=ft.FontWeight.BOLD),
                                     ft.Text("Documentation Lead · Pavement Watch", size=10, color="#8b949e"),
                                 ],
                                 spacing=1,
                             ),
                         ],
                         spacing=10,
-                        vertical_alignment="center",
+                        vertical_alignment=ft.CrossAxisAlignment.CENTER,
                     ),
                     ft.Row(controls=nav_btns, spacing=0),
                     ft.Row(
@@ -121,11 +121,11 @@ def main(page: ft.Page):
                             ft.Text("2026", size=11, color="#83c687"),
                         ],
                         spacing=6,
-                        vertical_alignment="center",
+                        vertical_alignment=ft.CrossAxisAlignment.CENTER,
                     ),
                 ],
-                alignment="spaceBetween",
-                vertical_alignment="center",
+                alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                vertical_alignment=ft.CrossAxisAlignment.CENTER,
             ),
             bgcolor="#0d1117",
             border=ft.border.only(bottom=ft.BorderSide(1, "#21262d")),
@@ -164,34 +164,34 @@ def main(page: ft.Page):
 
         ring = ft.Container(
             width=180, height=180, border_radius=90,
-            border=ft.border.all(2, "#8b949e"),
-            opacity=0.0, animate_opacity=ft.animation.Animation(800, "easeOut"),
+            border=ft.Border.all(2, "#8b949e"),  # FIXED: ft.border.all to ft.Border.all
+            opacity=0.0, animate_opacity=ft.Animation(800, ft.AnimationCurve.EASE_OUT),
             shadow=ft.BoxShadow(blur_radius=20, color="#8b949e44", spread_radius=2),
         )
         ring2 = ft.Container(
             width=200, height=200, border_radius=100,
-            border=ft.border.all(1, "#8b949e66"),
-            opacity=0.0, animate_opacity=ft.animation.Animation(1000, "easeOut"),
+            border=ft.Border.all(1, "#8b949e66"),  # FIXED: ft.border.all to ft.Border.all
+            opacity=0.0, animate_opacity=ft.Animation(1000, ft.AnimationCurve.EASE_OUT),
         )
         photo = ft.Container(
-            content=ft.Image(src_base64=profile_b64, width=160, height=160, fit="cover")
-            if profile_b64 else ft.Text("JS", size=48, color="#fff", weight="bold"),
+            content=ft.Image(src_base64=profile_b64, width=160, height=160, fit=ft.ImageFit.COVER)
+            if profile_b64 else ft.Text("JS", size=48, color="#fff", weight=ft.FontWeight.BOLD),
             width=160, height=160, border_radius=80,
             clip_behavior=ft.ClipBehavior.ANTI_ALIAS,
             bgcolor="#0d1117",
-            opacity=0.0, animate_opacity=ft.animation.Animation(800, "easeOut"),
+            opacity=0.0, animate_opacity=ft.Animation(800, ft.AnimationCurve.EASE_OUT),
         )
-        name_text   = ft.Text("Juuso Susan", size=36, color="#bcd0ea", weight="bold", opacity=0.0, animate_opacity=ft.animation.Animation(600, "easeOut"))
-        role_text   = ft.Text("Documentation Lead  ·  Group 9 Pavement Watch", size=14, color="#8b949e", opacity=0.0, animate_opacity=ft.animation.Animation(600, "easeOut"))
-        unam_text   = ft.Text("UNIVERSITY OF NAMIBIA", size=13, color="#4719a2", weight="bold", opacity=0.0, animate_opacity=ft.animation.Animation(600, "easeOut"))
-        tagline     = ft.Text("Programming I  ·  Portfolio 2026", size=12, color="#484f58", opacity=0.0, animate_opacity=ft.animation.Animation(600, "easeOut"))
-        progress    = ft.ProgressBar(width=300, bgcolor="#30363d", color="#8b949e", value=0, opacity=0.0, animate_opacity=ft.animation.Animation(400, "easeOut"))
-        loading_txt = ft.Text("Loading...", size=11, color="#484f58", opacity=0.0, animate_opacity=ft.animation.Animation(400, "easeOut"))
+        name_text   = ft.Text("Juuso Susan", size=36, color="#bcd0ea", weight=ft.FontWeight.BOLD, opacity=0.0, animate_opacity=ft.Animation(600, ft.AnimationCurve.EASE_OUT))
+        role_text   = ft.Text("Documentation Lead  ·  Group 9 Pavement Watch", size=14, color="#8b949e", opacity=0.0, animate_opacity=ft.Animation(600, ft.AnimationCurve.EASE_OUT))
+        unam_text   = ft.Text("UNIVERSITY OF NAMIBIA", size=13, color="#4719a2", weight=ft.FontWeight.BOLD, opacity=0.0, animate_opacity=ft.Animation(600, ft.AnimationCurve.EASE_OUT))
+        tagline     = ft.Text("Programming I  ·  Portfolio 2026", size=12, color="#484f58", opacity=0.0, animate_opacity=ft.Animation(600, ft.AnimationCurve.EASE_OUT))
+        progress    = ft.ProgressBar(width=300, bgcolor="#30363d", color="#8b949e", value=0, opacity=0.0, animate_opacity=ft.Animation(400, ft.AnimationCurve.EASE_OUT))
+        loading_txt = ft.Text("Loading...", size=11, color="#484f58", opacity=0.0, animate_opacity=ft.Animation(400, ft.AnimationCurve.EASE_OUT))
         enter_btn   = ft.Container(
-            content=ft.Text("Enter Portfolio →", size=14, color="#0d1117", weight="bold"),
+            content=ft.Text("Enter Portfolio →", size=14, color="#0d1117", weight=ft.FontWeight.BOLD),
             bgcolor="#8b949e", border_radius=8,
             padding=ft.padding.symmetric(horizontal=32, vertical=14),
-            opacity=0.0, animate_opacity=ft.animation.Animation(600, "easeOut"),
+            opacity=0.0, animate_opacity=ft.Animation(600, ft.AnimationCurve.EASE_OUT),
             on_click=lambda e: launch_app(), ink=True,
             shadow=ft.BoxShadow(blur_radius=20, color="#8b949e44", spread_radius=2),
         )
@@ -210,8 +210,8 @@ def main(page: ft.Page):
                 controls=[photo_stack, name_text, role_text, unam_text, tagline,
                            ft.Container(height=10), progress, loading_txt,
                            ft.Container(height=10), enter_btn],
-                horizontal_alignment="center",
-                alignment="center",
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                alignment=ft.MainAxisAlignment.CENTER,
                 spacing=12,
             ),
             alignment=ft.alignment.center,
@@ -230,7 +230,7 @@ def main(page: ft.Page):
             time.sleep(0.3)
             ring.opacity = 1.0
             ring2.opacity = 1.0
-            page.update()  # Safely update the page container instead of individual widgets
+            page.update()  
             
             time.sleep(0.3)
             photo.opacity = 1.0
@@ -280,4 +280,5 @@ def main(page: ft.Page):
     build_splash()
 
 
-ft.app(target=main, port=8550, view="web_browser", assets_dir="assets")
+if __name__ == "__main__":
+    ft.app(target=main, port=8550, view=ft.AppView.WEB_BROWSER, assets_dir="assets")
